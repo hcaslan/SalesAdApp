@@ -17,8 +17,8 @@ public class UserService {
     }
 
     public Optional<User> login() {
-        User loggingUser = userRepository.findByColumnAndValue("username", inputHelper.stringInput("Lütfen username  girin ")).getFirst();
-        if(loggingUser.getPassword().equals(inputHelper.stringInput("Lütfen password  girin")))
+        User loggingUser = userRepository.findByColumnAndValue("username", InputHelper.getStringInput("Lütfen username  girin ")).getFirst();
+        if(loggingUser.getPassword().equals(InputHelper.getStringInput("Lütfen password  girin")))
             return Optional.of(loggingUser);
         else
             return Optional.empty();
@@ -31,7 +31,7 @@ public class UserService {
         userRepository.save(User.builder()
                 .email(checkedEmail)
                 .username(checkedUsername)
-                .password(inputHelper.stringInput("Lütfen password  girin"))
+                .password(InputHelper.getStringInput("Lütfen password  girin"))
                 .build());
     }
 
@@ -39,7 +39,7 @@ public class UserService {
         boolean isUsernameOk = false;
         String username = null;
         while (!isUsernameOk) {
-            username = inputHelper.stringInput("Lütfen username  girin ");
+            username = InputHelper.getStringInput("Lütfen username  girin ");
             if (isUsernameUnique(username)) {
                 isUsernameOk = true;
             }
@@ -51,7 +51,7 @@ public class UserService {
         boolean isMailOk = false;
         String email = null;
         while (!isMailOk) {
-            email = inputHelper.stringInput("Lütfen email adresinizi girin ");
+            email = InputHelper.getStringInput("Lütfen email adresinizi girin ");
             if (isEmailValid(email) && isEmailUnique(email)) {
                 isMailOk = true;
             }

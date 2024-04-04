@@ -6,12 +6,12 @@ import java.util.Scanner;
 public class InputHelper {
     static Scanner sc = new Scanner(System.in);
 
-    public String stringInput(String explaination) {
+    public static String getStringInput(String explaination) {
         System.out.println(explaination);
         return sc.nextLine();
     }
 
-    public int getIntegerInput(String explaination) {
+    public static int getIntegerInput(String explaination) {
         System.out.println(explaination);
         int input;
         while (true) {
@@ -27,7 +27,7 @@ public class InputHelper {
         return input;
     }
 
-    public Double getDoubleInput(String explaination) {
+    public static Double getDoubleInput(String explaination) {
         System.out.println(explaination);
         double input;
         while (true) {
@@ -43,7 +43,7 @@ public class InputHelper {
         return input;
     }
 
-    public Long getLongInput(String explaination) {
+    public static Long getLongInput(String explaination) {
         System.out.println(explaination);
         long input;
         while (true) {

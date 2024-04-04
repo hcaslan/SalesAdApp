@@ -23,14 +23,14 @@ public class IlanService {
         this.ilanRepository = new IlanRepository();
     }
 
-    public Ilan createIlan() {
+    public void createIlan() {
         Category optionalCategory = categoryService.getCategory();
         Category category = optionalCategory;
 
-        String ilanTitle = inputHelper.stringInput("Lütfen ilanın başlığını yazın");
-        String description = inputHelper.stringInput("Lütfen ilanın açıklamasını girin");
-        Double ilanPrice = inputHelper.getDoubleInput("Lütfen ilanın fiyatını girin");
-        String location = inputHelper.stringInput("Lütfen bulunduğunuz ilçe yazın");
+        String ilanTitle = InputHelper.getStringInput("Lütfen ilanın başlığını yazın");
+        String description = InputHelper.getStringInput("Lütfen ilanın açıklamasını girin");
+        Double ilanPrice = InputHelper.getDoubleInput("Lütfen ilanın fiyatını girin");
+        String location = InputHelper.getStringInput("Lütfen bulunduğunuz ilçe yazın");
 
         Ilan ilan = Ilan.builder()
                 .ilan_user_id(SessionContext.getUser())
@@ -43,7 +43,6 @@ public class IlanService {
         ilanRepository.save(ilan);
         List<Image> images = imageService.saveIlanImages(ilan);
         ilan.setImages(images);
-        return ilan;
     }
 
     public void showAllIlan() {

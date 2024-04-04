@@ -10,7 +10,6 @@ import org.bilgeadam.utility.InputHelper;
 import java.util.Optional;
 
 public class FavouriteIlanService {
-    InputHelper inputHelper = new InputHelper();
     private FavouriteIlanRepository favouriteIlanRepository;
 
 
@@ -24,7 +23,7 @@ public class FavouriteIlanService {
     public void addFavourite(Optional<Ilan> ilan) {
         if (ilan.isPresent()) {
 
-            int choice = inputHelper.getIntegerInput("Favorilere Eklemek için 5'i Tuşlatıyın Bir üst menü için herhangi bir tuşlama yapın");
+            int choice = InputHelper.getIntegerInput("Favorilere Eklemek için 5'i Tuşlatıyın Bir üst menü için herhangi bir tuşlama yapın");
             if (choice == 5) {
                 FavouriteIlan favouriteIlan = FavouriteIlan.builder().favouriteIlan_user_id(SessionContext.getUser()).favouriteIlan_ilan_id(ilan.get()).status(IlanStatus.ACTIVE).build();
                 favouriteIlanRepository.save(favouriteIlan);

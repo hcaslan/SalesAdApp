@@ -18,7 +18,7 @@ public class CategoryService {
         this.categoryRepository = new CategoryRepository();
     }
 
-    public List<Long> showParentlessCategory() {
+    private List<Long> showParentlessCategory() {
         List<Long> parentlessCategoryIds = new ArrayList<Long>();
         categoryRepository.getAll().forEach(category -> {
             if (category.getParentCategoryId() == null) {
@@ -29,9 +29,9 @@ public class CategoryService {
         return parentlessCategoryIds;
     }
 
-    public Optional<Category> chooseParentlessCategory() {
+    private Optional<Category> chooseParentlessCategory() {
         List<Long> parentCategoryIds = showParentlessCategory();
-        Long parentCategoryChoice = inputHelper.getLongInput("Lütfen İlan vermek istediğiniz kategoriyi seçin");
+        Long parentCategoryChoice = InputHelper.getLongInput("Lütfen İlan vermek istediğiniz kategoriyi seçin");
         Optional<Category> choosenParentCategory;
         if(parentCategoryIds.stream().anyMatch(n -> n.equals(parentCategoryChoice))) {
             choosenParentCategory = categoryRepository.findById(parentCategoryChoice);
@@ -52,17 +52,19 @@ public class CategoryService {
         }
     }
 
-    public Optional<Category> chooseChildCategory( Optional<Category> parentCategory ) {
-        List<Long> ids = new ArrayList<Long>();
+    private Optional<Category> chooseChildCategory( Optional<Category> parentCategory ) {
+        List<Long> ids = new ArrayList<>();
         parentCategory.ifPresent(category ->category.getChildsCategory().forEach(child -> {
             System.out.println(child);
             ids.add(child.getId());
         }));
-        Long choice = inputHelper.getLongInput("Lütfen İlan vermek istediğiniz kategoriyi seçin");
+        Long choice = InputHelper.getLongInput("Lütfen İlan vermek istediğiniz kategoriyi seçin");
         Optional<Category> chosenCategory;
         if(ids.stream().anyMatch(n -> n.equals(choice))) {
             chosenCategory = categoryRepository.findById(choice);
-            if(categoryRepository.getAll().stream().filter(category -> (category.getParentCategoryId() != null) && category.getParentCategoryId().getId().equals(chosenCategory.get().getId())).collect(Collectors.toList()).isEmpty()){
+            if(categoryRepository.getAll().stream().noneMatch(category ->
+                    (category.getParentCategoryId() != null)
+                            && category.getParentCategoryId().getId().equals(chosenCategory.get().getId()))){
                 return chosenCategory;
             }else{
                 return chooseChildCategory(chosenCategory);

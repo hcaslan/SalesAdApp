@@ -2,10 +2,13 @@ package org.bilgeadam;
 
 import org.bilgeadam.entity.Category;
 import org.bilgeadam.entity.Ilan;
+import org.bilgeadam.entity.Message;
 import org.bilgeadam.entity.User;
 import org.bilgeadam.repository.CategoryRepository;
+import org.bilgeadam.repository.MessageRepository;
 import org.bilgeadam.service.FavouriteIlanService;
 import org.bilgeadam.service.IlanService;
+import org.bilgeadam.service.MessageService;
 import org.bilgeadam.service.UserService;
 import org.bilgeadam.utility.InputHelper;
 
@@ -16,6 +19,9 @@ public class Runner {
     static InputHelper inputHelper = new InputHelper();
     static UserService userService = new UserService();
     static IlanService ilanService = new IlanService();
+    static MessageService messageService = new MessageService();
+
+    static MessageRepository messageRepository = new MessageRepository();
     static FavouriteIlanService favouriteIlanService = new FavouriteIlanService();
 
     public static void main(String[] args) {
@@ -65,6 +71,7 @@ public class Runner {
                     1)İlan ver
                     2)İlanları Listele
                     3)Favori İlanlarım
+                    4)Gelen Kutusu
                     0)Güvenli çıkış""");
             choice = inputHelper.getIntegerInput("Seçiminizi girin.");
             switch (choice) {
@@ -72,14 +79,13 @@ public class Runner {
                     ilanService.createIlan();
                     break;
                 case 2:
-                    ilanService.showAllIlan();
-                    Optional<Ilan> ilan = ilanService.showIlanDetail(inputHelper.getLongInput("Lütfen detayını görmek istediğiniz ilanın id'sini girin"));
-                    favouriteIlanService.addFavourite(ilan);
+                    MainController.ilanController();
                     break;
                 case 3:
-                    favouriteIlanService.showFavouriteIlans();
-                    Optional<Ilan> favoriteIlan = ilanService.showIlanDetail(inputHelper.getLongInput("Lütfen detayını görmek istediğiniz ilanın id'sini girin"));
-                    favouriteIlanService.deleteFavourite(favoriteIlan);
+                    MainController.favoriIlanController();
+                    break;
+                case 4:
+                    MainController.gelenKutusuKontroller();
                     break;
                 default:
                     if (choice != 0) {
